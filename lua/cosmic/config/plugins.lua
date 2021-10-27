@@ -27,3 +27,12 @@ local plugins = {
 return plugins
 
 ]]
+local plugins = {
+  add = {
+    "folke/which-key.nvim",
+  },
+  disable = {
+    'auto-session'
+  }
+}
+return plugins

@@ -50,3 +50,12 @@ config.lsp = {
 return config
 
 ]]
+
+local config = {}
+config.lsp ={
+  diagnostic = {
+    virtual_text  = false
+  }
+}
+
+return config
