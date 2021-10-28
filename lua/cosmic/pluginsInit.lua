@@ -9,7 +9,7 @@ local use = packer.use
 
 local ok, user_plugins = pcall(require, 'cosmic.config.plugins')
 if not ok then
-  error(string.format('Error loading user custom plugins...\n\n%s', user_plugins))
+  error(('Error loading user custom plugins...\n\n%s'):format(user_plugins))
   return false
 end
 
@@ -35,6 +35,24 @@ return packer.startup(function()
     config = function()
       require('impatient')
     end,
+  })
+
+  use({
+    'rcarriga/nvim-notify',
+    config = function()
+      local icons = require('cosmic.core.theme.icons')
+      require('notify').setup({
+        icons = {
+          ERROR = icons.error,
+          WARN = icons.warn,
+          INFO = icons.info,
+          DEBUG = icons.debug,
+          TRACE = icons.trace,
+        },
+      })
+      vim.notify = require('notify')
+    end,
+    disable = vim.tbl_contains(user_plugins.disable, 'notify'),
   })
 
   use({ -- color scheme

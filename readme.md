@@ -100,6 +100,9 @@ Enter `:TSInstall` followed by <TAB> to see your options for languages with tree
 ### Rename
 ![rename](https://user-images.githubusercontent.com/3721204/138015221-0e55c63a-b640-46e0-9353-7e891f804d67.png)
 
+#### Rename change notification
+<img width="545" alt="Screen Shot 2021-10-27 at 5 41 44 PM" src="https://user-images.githubusercontent.com/3721204/139167053-fc4acf9d-e7fb-4544-bbfb-476fa7a4b7e4.png">
+  
 ### Hover
 ![hover](https://user-images.githubusercontent.com/3721204/138015245-a530e565-d1cb-4d2a-bcbc-7a8109befcda.png)
 
