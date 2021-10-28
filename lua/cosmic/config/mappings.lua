@@ -9,6 +9,15 @@ local map = require('cosmic.utils').map
 
 -- Example: Additional insert mapping:
 map('i', 'jj', '<esc>', { noremap = true, silent = true })
+
+-- Mapping options:
+-- map('n', ...)
+-- map('v', ...)
+-- map('i', ...)
+-- map('t', ...)
+--
+-- Example: Disable find files keymap
+cmd('unmap <leader>f')
 ]]
 
 require('which-key').setup{}
