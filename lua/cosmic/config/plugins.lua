@@ -10,13 +10,14 @@ local plugins = {
       requires = { 'kyazdani42/nvim-web-devicons' },
     },
   },
-  disable = { -- disabling some plugins may mean you'll have to remap some keybindings
+  disable = { -- disabling some core plugins may mean you'll have to remap some keybindings
     'auto-session',
     'colorizer',
     'fugitive',
     'gitsigns',
     'kommentary',
     'statusline',
+    'theme', -- if default theme is disabled, you will need to update add your own statusline
     'treesitter',
     'telescope',
     'terminal',

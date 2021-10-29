@@ -1,4 +1,7 @@
-local colors = require('cosmic.core.theme.colors')
+local _, colors = pcall(require, 'cosmic.core.theme.colors')
+if not colors then
+  return
+end
 local highlight = require('cosmic.utils').highlight
 
 -- diagnostic virtual text highlights
@@ -50,6 +53,9 @@ highlight('NotifyERRORIcon', nil, colors.error)
 highlight('NotifyTRACEBorder', nil, colors.trace)
 highlight('NotifyTRACETitle', nil, colors.trace)
 highlight('NotifyTRACEIcon', nil, colors.trace)
+
+-- terminal highlight
+highlight('FloatermBorder', 'None', colors.floatBorder)
 
 vim.cmd([[
 highlight clear NormalFloat

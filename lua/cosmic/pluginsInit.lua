@@ -62,6 +62,7 @@ return packer.startup(function()
       vim.g.tokyonight_sidebars = { 'qf', 'packer' }
       vim.cmd('color tokyonight')
     end,
+    disable = vim.tbl_contains(user_plugins.disable, 'theme'),
   })
 
   use({ -- icons
@@ -78,7 +79,7 @@ return packer.startup(function()
       require('cosmic.core.statusline')
     end,
     after = 'nvim-web-devicons',
-    disable = vim.tbl_contains(user_plugins.disable, 'statusline'),
+    disable = vim.tbl_contains(user_plugins.disable, 'statusline') or vim.tbl_contains(user_plugins.disable, 'theme'),
   })
 
   -- file explorer

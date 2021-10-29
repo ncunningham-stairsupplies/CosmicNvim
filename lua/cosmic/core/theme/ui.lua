@@ -5,9 +5,9 @@ local lsp = vim.lsp
 local buf, win
 
 function M.rename()
-  local colors = require('cosmic.core.theme.colors')
   local icons = require('cosmic.core.theme.icons')
   local utils = require('cosmic.utils')
+  local config = require('cosmic.config')
   local highlight = utils.highlight
   local prompt_str = ' ' .. icons.folder.arrow_closed .. ' '
   local map_opts = { noremap = true, silent = true }
@@ -28,8 +28,12 @@ function M.rename()
   api.nvim_win_set_option(win, 'sidescrolloff', 0)
   api.nvim_buf_set_option(buf, 'modifiable', true)
   api.nvim_buf_set_option(buf, 'buftype', 'prompt')
-  api.nvim_buf_add_highlight(buf, -1, 'LspRenamePrompt', 0, 0, #prompt_str)
-  highlight('LspRenamePrompt', 'None', colors.selection_caret)
+
+  local _, colors = pcall(require, 'cosmic.core.theme.colors')
+  if colors then
+    api.nvim_buf_add_highlight(buf, -1, 'LspRenamePrompt', 0, 0, #prompt_str)
+    highlight('LspRenamePrompt', 'None', colors.selection_caret)
+  end
 
   vim.fn.prompt_setprompt(buf, prompt_str)
 
@@ -55,31 +59,39 @@ function M.rename()
       method = select(2, ...)
       result = select(3, ...)
     end
-    if err then
-      vim.notify(("Error running LSP query '%s': %s"):format(method, err), vim.log.levels.ERROR)
-      return
-    end
-    -- echo the resulting changes
-    if result and result.changes then
-      local msg = ''
-      for f, c in pairs(result.changes) do
-        msg = msg .. ('%d changes -> %s'):format(#c, utils.get_relative_path(f)) .. '\n'
+
+    if config.lsp.rename_notification then
+      if err then
+        vim.notify(("Error running LSP query '%s': %s"):format(method, err), vim.log.levels.ERROR)
+        return
       end
-      msg = msg:sub(1, #msg - 1)
-      vim.notify(msg, vim.log.levels.INFO)
+
+      -- echo the resulting changes
+      local new_word = ''
+      if result and result.changes then
+        local msg = ''
+        for f, c in pairs(result.changes) do
+          new_word = c[1].newText
+          msg = msg .. ('%d changes -> %s'):format(#c, utils.get_relative_path(f)) .. '\n'
+        end
+        local currName = vim.fn.expand('<cword>')
+        msg = msg:sub(1, #msg - 1)
+        vim.notify(msg, vim.log.levels.INFO, { title = ('Rename: %s -> %s'):format(currName, new_word) })
+      end
     end
+
     vim.lsp.handlers[method](...)
   end
 
   function M._rename()
-    local newName = vim.trim(vim.fn.getline('.'):sub(5, -1))
+    local new_name = vim.trim(vim.fn.getline('.'):sub(5, -1))
     vim.cmd([[q!]])
     local params = lsp.util.make_position_params()
-    local currName = vim.fn.expand('<cword>')
-    if not (newName and #newName > 0) or newName == currName then
+    local curr_name = vim.fn.expand('<cword>')
+    if not (new_name and #new_name > 0) or new_name == curr_name then
       return
     end
-    params.newName = newName
+    params.newName = new_name
     lsp.buf_request(0, 'textDocument/rename', params, handler)
   end
 end
