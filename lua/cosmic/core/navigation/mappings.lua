@@ -1,30 +1,36 @@
 local map = require('cosmic.utils').map
 local M = {}
 
-function M.init()
-  map('n', '<leader>p', ':Telescope find_files<CR>', { noremap = true })
-  map('n', '<leader>f', ':Telescope git_files<CR>', { noremap = true })
-  map('n', '<leader>k', ':Telescope buffers<CR>', { noremap = true })
-  map('n', '<leader>s', ':Telescope live_grep<CR>', { noremap = true })
-  map('n', '<leader>gc', ':Telescope git_commits<CR>', { noremap = true })
-  map('n', '<leader>gs', ':Telescope git_status<CR>', { noremap = true })
+M.project_files = function()
+  local opts = {} -- define here if you want to define something
+  local ok = pcall(require('telescope.builtin').git_files, opts)
+  if not ok then
+    require('telescope.builtin').find_files(opts)
+  end
 end
 
-function M.mappings()
-  local actions = require('telescope.actions')
-  local normal = {
-    n = {
-      ['Q'] = actions.smart_add_to_qflist + actions.open_qflist,
-      ['q'] = actions.smart_send_to_qflist + actions.open_qflist,
-      ['<tab>'] = actions.toggle_selection + actions.move_selection_next,
-      ['<s-tab>'] = actions.toggle_selection + actions.move_selection_previous,
-      ['v'] = actions.file_vsplit,
-      ['s'] = actions.file_split,
-      ['<cr>'] = actions.file_edit,
-    },
-  }
+M.init = function()
+  -- navigation
+  map('n', '<leader>sf', '<cmd>lua require("cosmic.core.navigation.mappings").project_files()<cr>')
+  map('n', '<leader>sp', ':Telescope find_files<cr>')
+  map('n', '<leader>sk', ':Telescope buffers<cr>')
+  map('n', '<leader>ss', ':Telescope live_grep<cr>')
 
-  return normal
+  -- git navigation
+  map('n', '<leader>ggc', ':Telescope git_commits<cr>')
+  map('n', '<leader>ggs', ':Telescope git_status<cr>')
+
+  -- quickfix navigation
+  map('n', '<leader>cp', ':cprev<cr>')
+  map('n', '<leader>cn', ':cnext<cr>')
+
+  -- buffer navigation
+  map('n', '<leader>bp', ':bprev<cr>')
+  map('n', '<leader>bn', ':bnext<cr>')
+
+  -- tab navigation
+  map('n', '<leader>tp', ':tprev<cr>')
+  map('n', '<leader>tn', ':tnext<cr>')
 end
 
 return M

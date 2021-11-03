@@ -37,6 +37,25 @@ return packer.startup(function()
     end,
   })
 
+  use('nathom/filetype.nvim')
+
+  use({ 'nvim-lua/plenary.nvim' })
+
+  use({ -- color scheme
+    'folke/tokyonight.nvim',
+    config = function()
+      vim.g.tokyonight_style = 'night'
+      vim.g.tokyonight_sidebars = { 'qf' }
+      vim.cmd('color tokyonight')
+    end,
+    disable = vim.tbl_contains(user_plugins.disable, 'theme'),
+  })
+
+  use({ -- icons
+    'kyazdani42/nvim-web-devicons',
+    after = 'tokyonight.nvim',
+  })
+
   use({
     'rcarriga/nvim-notify',
     config = function()
@@ -52,22 +71,9 @@ return packer.startup(function()
       })
       vim.notify = require('notify')
     end,
-    disable = vim.tbl_contains(user_plugins.disable, 'notify'),
-  })
-
-  use({ -- color scheme
-    'folke/tokyonight.nvim',
-    config = function()
-      vim.g.tokyonight_style = 'night'
-      vim.g.tokyonight_sidebars = { 'qf', 'packer' }
-      vim.cmd('color tokyonight')
-    end,
-    disable = vim.tbl_contains(user_plugins.disable, 'theme'),
-  })
-
-  use({ -- icons
-    'kyazdani42/nvim-web-devicons',
     after = 'tokyonight.nvim',
+    disable = vim.tbl_contains(user_plugins.disable, 'notify'),
+    event = 'BufEnter',
   })
 
   -- theme stuff
@@ -86,7 +92,7 @@ return packer.startup(function()
   use({
     'kyazdani42/nvim-tree.lua',
     config = function()
-      require('cosmic.core.file-explorer').init()
+      require('cosmic.core.file-explorer')
     end,
     opt = true,
     cmd = {
@@ -110,13 +116,15 @@ return packer.startup(function()
     config = function()
       require('cosmic.lsp')
     end,
+    after = 'nvim-cmp',
+    event = 'BufEnter',
   })
 
   -- autocompletion
   use({
     'hrsh7th/nvim-cmp',
     config = function()
-      require('cosmic.lsp.autocomplete')
+      require('cosmic.lsp.autocomplete').init()
     end,
     requires = {
       'hrsh7th/cmp-nvim-lsp',
@@ -126,9 +134,19 @@ return packer.startup(function()
       'hrsh7th/nvim-cmp',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
-      'windwp/nvim-autopairs',
       'onsails/lspkind-nvim',
     },
+    event = 'BufEnter',
+    disable = vim.tbl_contains(user_plugins.disable, 'autocomplete'),
+  })
+
+  use({
+    'windwp/nvim-autopairs',
+    config = function()
+      require('cosmic.lsp.autocomplete').autopairs()
+    end,
+    after = 'nvim-cmp',
+    disable = vim.tbl_contains(user_plugins.disable, 'autocomplete'),
   })
 
   -- git commands
@@ -175,7 +193,7 @@ return packer.startup(function()
     config = function()
       require('cosmic.core.navigation')
     end,
-    event = 'BufRead',
+    event = 'BufEnter',
     disable = vim.tbl_contains(user_plugins.disable, 'telescope'),
   })
 
@@ -185,7 +203,7 @@ return packer.startup(function()
     event = 'VimEnter',
     config = function()
       require('auto-session').setup({
-        pre_save_cmds = { 'NvimTreeClose', 'cclose' },
+        pre_save_cmds = { 'NvimTreeClose', 'cclose', 'lua vim.notify.dismiss()' },
       })
     end,
     disable = vim.tbl_contains(user_plugins.disable, 'auto-session'),
@@ -200,6 +218,7 @@ return packer.startup(function()
       'nvim-treesitter/nvim-treesitter-refactor',
     },
     run = ':TSUpdate',
+    event = 'BufEnter',
     config = function()
       require('cosmic.core.treesitter')
     end,
@@ -213,6 +232,38 @@ return packer.startup(function()
     disable = vim.tbl_contains(user_plugins.disable, 'kommentary'),
   })
 
+  -- todo highlights
+  use({
+    'folke/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      local icons = require('cosmic.core.theme.icons')
+      require('todo-comments').setup({
+        keywords = {
+          FIX = {
+            icon = icons.debug, -- icon used for the sign, and in search results
+            color = 'error', -- can be a hex color, or a named color (see below)
+            alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE', 'fix', 'fixme', 'bug' }, -- a set of other keywords that all map to this FIX keywords
+            -- signs = false, -- configure signs for some keywords individually
+          },
+          TODO = { icon = icons.check, color = 'info' },
+          HACK = { icon = icons.flame, color = 'warning' },
+          WARN = { icon = icons.warn, color = 'warning', alt = { 'WARNING', 'XXX' } },
+          PERF = { icon = icons.perf, alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
+          NOTE = { icon = icons.note, color = 'hint', alt = { 'INFO' } },
+        },
+        colors = {
+          error = { 'DiagnosticError', 'ErrorMsg', '#DC2626' },
+          warning = { 'DiagnosticWarning', 'WarningMsg', '#FBBF24' },
+          info = { 'DiagnosticInformation', '#2563EB' },
+          hint = { 'DiagnosticHint', '#10B981' },
+          default = { 'Identifier', '#7C3AED' },
+        },
+      })
+    end,
+    event = 'BufRead',
+    disable = vim.tbl_contains(user_plugins.disable, 'todo-comments'),
+  })
   -- colorized hex codes
   use({
     'norcalli/nvim-colorizer.lua',

@@ -12,15 +12,17 @@ local plugins = {
   },
   disable = { -- disabling some core plugins may mean you'll have to remap some keybindings
     'auto-session',
+    'autocomplete',
     'colorizer',
     'fugitive',
     'gitsigns',
     'kommentary',
     'statusline',
-    'theme', -- if default theme is disabled, you will need to update add your own statusline
-    'treesitter',
     'telescope',
     'terminal',
+    'theme', -- if default theme is disabled, you will need to update add your own statusline
+    'todo-comments',
+    'treesitter',
     'nvim-tree',
   },
 }
