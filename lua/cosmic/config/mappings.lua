@@ -83,9 +83,17 @@ map('n', '<leader>lti', ':TSLspImportAll<CR>', opts)
 map('n', '<leader>lto', ':TSLspOrganize<CR>', opts)
 map('n', '<leader>ltr', ':TSLspRenameFile<CR>', opts)
 
+map('i', '<C-a>', ':copilot#Accept()<cr>', opts)
 
 -- setup finds
 map('n', '<leader>ff', ':Telescope find_files<CR>', opts)
 map('n', '<leader>fg', ':Telescope live_grep<CR>', opts)
 map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
 
+vim.api.nvim_exec(
+    [[
+        imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")
+        let g:copilot_no_tab_map = v:true
+    ]],
+        true
+)

@@ -31,6 +31,7 @@ return plugins
 local plugins = {
   add = {
     "folke/which-key.nvim",
+    "github/copilot.vim"
   },
   disable = {
     'auto-session'
