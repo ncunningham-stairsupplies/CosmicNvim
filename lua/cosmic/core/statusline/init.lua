@@ -9,7 +9,12 @@ local highlight = utils.highlight
 local icons = require('cosmic.core.theme.icons')
 local config = require('cosmic.config')
 
-local main_icon = config.statusline.main_icon
+local defaults = vim.tbl_deep_extend('force', {
+  statusline = {
+    main_icon = icons.ghost,
+  },
+}, config.statusline or {})
+local main_icon = defaults.statusline.main_icon
 
 local get_mode = function()
   local mode_colors = {
@@ -101,6 +106,31 @@ galaxy.short_line_list = {
   'fugitiveblame',
 }
 
+gls.mid = {
+  {
+    LSPStatus = {
+      provider = function()
+        local clients = utils.get_active_lsp_client_names()
+        local client_str = ''
+
+        if #clients < 1 then
+          return client_str
+        end
+
+        for i, client in ipairs(clients) do
+          client_str = client_str .. client
+          if i < #clients then
+            client_str = client_str .. ', '
+          end
+        end
+
+        return 'LSP: [' .. client_str .. ']'
+      end,
+      highlight = 'GalaxyText',
+    },
+  },
+}
+
 gls.left = {
   {
     GhostLeftBracket = {
@@ -131,9 +161,10 @@ gls.left = {
         local label, mode_color, mode_nested = unpack(m)
         highlight('GalaxyViMode', mode_color, mode_nested)
         highlight('GalaxyViModeInv', mode_nested, mode_color)
-        highlight('GalaxyViModeNested', mode_nested, colors.bg)
-        highlight('GalaxyViModeNestedInv', colors.bg, mode_nested)
-        highlight('GalaxyPercentBracket', colors.bg, mode_color)
+        highlight('GalaxyViModeNested', mode_nested, colors.bg_dark)
+        highlight('GalaxyViModeNestedInv', colors.bg_dark, mode_nested)
+        highlight('GalaxyPercentBracket', colors.bg_dark, mode_color)
+        highlight('GalaxyText', colors.bg_dark, mode_color)
 
         highlight('GalaxyGitLCBracket', mode_nested, mode_color)
 
@@ -141,9 +172,9 @@ gls.left = {
           highlight('GalaxyViModeBracket', mode_nested, mode_color)
         else
           if condition.check_git_workspace() then
-            highlight('GalaxyGitLCBracket', colors.bg, mode_color)
+            highlight('GalaxyGitLCBracket', colors.bg_dark, mode_color)
           end
-          highlight('GalaxyViModeBracket', colors.bg, mode_color)
+          highlight('GalaxyViModeBracket', colors.bg_dark, mode_color)
         end
         return '  ' .. label .. ' '
       end,
@@ -216,7 +247,7 @@ gls.left = {
       provider = 'DiffAdd',
       icon = '  ',
       condition = check_width_and_git_and_buffer,
-      highlight = { colors.diffAdd, colors.bg },
+      highlight = { colors.diffAdd, colors.bg_dark },
     },
   },
   {
@@ -224,7 +255,7 @@ gls.left = {
       provider = 'DiffModified',
       condition = check_width_and_git_and_buffer,
       icon = '  ',
-      highlight = { colors.diffModified, colors.bg },
+      highlight = { colors.diffModified, colors.bg_dark },
     },
   },
   {
@@ -232,13 +263,13 @@ gls.left = {
       provider = 'DiffRemove',
       condition = check_width_and_git_and_buffer,
       icon = '  ',
-      highlight = { colors.diffDeleted, colors.bg },
+      highlight = { colors.diffDeleted, colors.bg_dark },
     },
   },
   {
     WSpace = {
       provider = 'WhiteSpace',
-      highlight = { colors.bg, colors.bg },
+      highlight = { colors.bg_dark, colors.bg_dark },
     },
   },
 }
@@ -255,8 +286,8 @@ gls.right = {
     DiagnosticError = {
       provider = function()
         local error_result = diag.get_diagnostic_error()
-        highlight('GalaxyDiagnosticError', colors.error, colors.bg)
-        highlight('GalaxyDiagnosticErrorInv', colors.bg, colors.error)
+        highlight('GalaxyDiagnosticError', colors.error, colors.bg_dark)
+        highlight('GalaxyDiagnosticErrorInv', colors.bg_dark, colors.error)
 
         if error_result ~= '' and error_result ~= nil then
           return error_result
@@ -288,8 +319,8 @@ gls.right = {
     DiagnosticWarn = {
       provider = function()
         local warn_result = diag.get_diagnostic_warn()
-        highlight('GalaxyDiagnosticWarn', colors.warn, colors.bg)
-        highlight('GalaxyDiagnosticWarnInv', colors.bg, colors.warn)
+        highlight('GalaxyDiagnosticWarn', colors.warn, colors.bg_dark)
+        highlight('GalaxyDiagnosticWarnInv', colors.bg_dark, colors.warn)
 
         if warn_result ~= '' and warn_result ~= nil then
           return warn_result
@@ -320,8 +351,8 @@ gls.right = {
     DiagnosticInfo = {
       provider = function()
         local info_result = diag.get_diagnostic_info()
-        highlight('GalaxyDiagnosticInfo', colors.info, colors.bg)
-        highlight('GalaxyDiagnosticInfoInv', colors.bg, colors.info)
+        highlight('GalaxyDiagnosticInfo', colors.info, colors.bg_dark)
+        highlight('GalaxyDiagnosticInfoInv', colors.bg_dark, colors.info)
 
         if info_result ~= '' and info_result ~= nil then
           return info_result
@@ -392,19 +423,19 @@ gls.short_line_left = {
   {
     GhostLeftBracketShort = {
       provider = BracketProvider(icons.rounded_left_filled, true),
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
   {
     GhostShort = {
       provider = BracketProvider(main_icon, true),
-      highlight = { colors.bg, colors.white },
+      highlight = { colors.bg_dark, colors.white },
     },
   },
   {
     GhostRightBracketShort = {
       provider = BracketProvider(icons.rounded_right_filled, true),
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
   {
@@ -420,7 +451,7 @@ gls.short_line_left = {
       end,
       highlight = {
         require('galaxyline.providers.fileinfo').get_file_icon,
-        colors.bg,
+        colors.bg_dark,
       },
     },
   },
@@ -430,7 +461,7 @@ gls.short_line_left = {
       condition = function()
         return condition.buffer_not_empty() and vim.bo.filetype ~= 'NvimTree'
       end,
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
   {
@@ -439,7 +470,7 @@ gls.short_line_left = {
       condition = function()
         return condition.buffer_not_empty() and vim.bo.filetype ~= 'NvimTree'
       end,
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
 }
@@ -449,7 +480,7 @@ gls.short_line_right = {
     GitRootShortLeftBracket = {
       provider = BracketProvider(icons.arrow_left_filled, true),
       condition = condition.buffer_not_empty,
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
   {
@@ -457,14 +488,14 @@ gls.short_line_right = {
       provider = get_git_root,
       condition = condition.buffer_not_empty,
       icon = '  ' .. icons.file .. ' ',
-      highlight = { colors.bg, colors.white },
+      highlight = { colors.bg_dark, colors.white },
     },
   },
   {
     GitRootShortRightBracket = {
       provider = BracketProvider(icons.rounded_right_filled, true),
       condition = condition.buffer_not_empty,
-      highlight = { colors.white, colors.bg },
+      highlight = { colors.white, colors.bg_dark },
     },
   },
 }

@@ -57,6 +57,8 @@ highlight('NotifyTRACEIcon', nil, colors.trace)
 -- terminal highlight
 highlight('FloatermBorder', 'None', colors.floatBorder)
 
+highlight('StatusLine', colors.bg_dark, 'Normal')
+
 vim.cmd([[
 highlight clear NormalFloat
 highlight link NormalFloat Normal

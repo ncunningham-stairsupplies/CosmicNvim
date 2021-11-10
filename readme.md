@@ -3,7 +3,9 @@
 <p align="center">
   <img alt="Neovim Minimum Version" src="https://img.shields.io/badge/Neovim-0.6.0+-blueviolet.svg?style=flat-square&logo=Neovim&logoColor=white)](https://github.com/neovim/neovim">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mattleong/CosmicNvim?style=flat-square&logo=Github">
-  <img alt="Discord" src="https://img.shields.io/discord/901609359291854899?style=flat-square&logo=Discord">
+  <a href="https://discord.gg/EwdrKzVbvJ">
+    <img alt="Discord" src="https://img.shields.io/discord/901609359291854899?style=flat-square&logo=Discord">
+  </a>
   <img alt="Website" src="https://img.shields.io/website?style=flat-square&up_message=live&label=website&url=https%3A%2F%2Fcosmicnvim.vercel.app%2F">
 </p>
 
@@ -26,6 +28,7 @@ Full featured native LSP functionality!
 
 - Amazing colors thanks to [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
 - Enhanced syntax highlighting with [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+- Dashboard via [dashboard-nvim](https://github.com/glepnir/dashboard-nvim)
 - Hand-built statusline with [galaxyline](https://github.com/NTBBloodbath/galaxyline.nvim)
 - Explore files with [nvim-tree](https://github.com/kyazdani42/nvim-tree.lua)
 - Fuzzy finder and some LSP actions with [Telescope](https://github.com/nvim-telescope/telescope.nvim)
@@ -64,15 +67,39 @@ Additional Cosmic installation [details](https://github.com/mattleong/CosmicNvim
 
 Additional LSP server installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installing-LSP-servers).
 
+## Cosmic Commands
+
+#### Update CosmicNvim
+
+```
+:CosmicUpdate
+```
+
+By default, this will assume the Cosmic git directory is placed at `vim.fn.stdpath('config')`, i.e. `~/.config/nvim`. Otherwise, you may define the shell environment variable `COSMICNVIM_INSTALL_DIR`.
+
+#### Reload user config
+
+```
+:CosmicReloadConfig
+```
+
+#### Reload CosmicNvim
+
+```
+:CosmicReload
+```
+
 ## Configuration
 
-[Cosmic configurations](./lua/cosmic/config/config.lua)
+[Cosmic configurations](./lua/cosmic/config/examples/config.lua)
 
-[Plugin configurations](./lua/cosmic/config/plugins.lua)
+[Plugin configurations](./lua/cosmic/config/examples/plugins.lua)
 
-[Add additional mappings](./lua/cosmic/config/mappings.lua)
+[Add additional mappings](./lua/cosmic/config/examples/mappings.lua)
 
-[Add additional vim options](./lua/cosmic/config/editor.lua)
+[Add additional vim options](./lua/cosmic/config/examples/editor.lua)
+
+[More info](./lua/cosmic/config/examples/readme.md)
 
 ## Treesitter Support
 
@@ -93,40 +120,30 @@ Enter `:TSInstall` followed by <TAB> to see your options for additional language
 ## 📷 Screenshots
 
 ### Statusline
+  
+<img width="1762" alt="normal" src="https://user-images.githubusercontent.com/3721204/140678741-266dc883-e1bb-4729-827e-1195acd62762.png">
+<img width="1762" alt="insert" src="https://user-images.githubusercontent.com/3721204/140678744-a89b7413-383d-4d81-affd-03c3815644bc.png">
+<img width="1762" alt="visual" src="https://user-images.githubusercontent.com/3721204/140678746-3ac4396d-32f9-4988-a296-76857291baca.png">
+<img width="1774" alt="replace" src="https://user-images.githubusercontent.com/3721204/140678745-a1cb5200-f945-4cff-ae0c-2285b25f333f.png">
 
-![normal](https://user-images.githubusercontent.com/3721204/137990346-8f614b6b-63da-471a-b5be-635b587f10a1.png)
-![insert](https://user-images.githubusercontent.com/3721204/137990345-d036c2d1-0f9e-4d4e-bd6c-13e051609f61.png)
-![visual](https://user-images.githubusercontent.com/3721204/137990348-6eb29e9b-e912-4d6e-8a5e-e763816613d7.png)
-![replace](https://user-images.githubusercontent.com/3721204/137990347-b59428d6-b5fe-4edb-8ceb-ab37b69b7e76.png)
+### Dashboard
+
+<img width="1792" alt="dashboard" src="https://user-images.githubusercontent.com/3721204/140592730-fc512005-6060-4dd2-8b90-0afa865d61d3.png">
 
 ### Autocomplete
 
-<img width="2532" alt="autocomplete" src="https://user-images.githubusercontent.com/3721204/138015498-3b18495e-9011-4ac2-9f3f-f020feb85caf.png">
+<img width="1792" alt="autocomplete" src="https://user-images.githubusercontent.com/3721204/140592713-f08c72f8-4fc5-4422-8987-2224b9425725.png">
 
 ### Rename
 
-<img width="1791" alt="Screen Shot 2021-11-01 at 9 42 21 PM" src="https://user-images.githubusercontent.com/3721204/139788009-ea4637e8-2791-419b-b5a5-794daea8774d.png">
+<img width="859" alt="rename" src="https://user-images.githubusercontent.com/3721204/140592783-c9875634-805e-45f4-8547-6dcb5b5c7404.png">
 
-#### Rename change notification
+### Rename change notification
 
-<img width="452" alt="Screen Shot 2021-11-01 at 9 38 32 PM" src="https://user-images.githubusercontent.com/3721204/139787765-bf10958d-21d9-48d1-8632-135950a3f1fb.png">
+<img width="1792" alt="rename notification" src="https://user-images.githubusercontent.com/3721204/140592788-27c0f02a-e31b-4af7-8f0c-a49a988e295e.png">
 
 ### Hover
 
-![hover](https://user-images.githubusercontent.com/3721204/138015245-a530e565-d1cb-4d2a-bcbc-7a8109befcda.png)
+<img width="1792" alt="hover" src="https://user-images.githubusercontent.com/3721204/140592798-b9dbbdee-8496-4998-a874-110a051a7672.png">
 
-### Find Reference
-
-![reference](https://user-images.githubusercontent.com/3721204/138015259-d59fbafb-86cc-471e-bfe8-46f723da359c.png)
-
-### Code Action
-
-![code_action](https://user-images.githubusercontent.com/3721204/138015273-770404ea-9cf7-48cf-8a31-62d865e6fa2a.png)
-
-### File Navigation
-
-![find_files](https://user-images.githubusercontent.com/3721204/138015288-9d592ebd-cfe0-4dc4-9cf0-2f2940487576.png)
-
-### Floating Terminal
-
-![terminal](https://user-images.githubusercontent.com/3721204/138015301-97d95ac5-49f3-4d31-9f1e-db15d4e6e9e2.png)
+[See more screenshots](https://github.com/mattleong/CosmicNvim/wiki/Screenshots)

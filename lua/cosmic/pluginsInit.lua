@@ -9,11 +9,6 @@ local use = packer.use
 
 local ok, user_plugins = pcall(require, 'cosmic.config.plugins')
 if not ok then
-  error(('Error loading user custom plugins...\n\n%s'):format(user_plugins))
-  return false
-end
-
-if user_plugins == true then
   user_plugins = {
     add = {},
     disable = {},
@@ -28,18 +23,12 @@ if not vim.tbl_islist(user_plugins.disable) then
 end
 
 return packer.startup(function()
-  use('wbthomason/packer.nvim')
-
   use({
+    'wbthomason/packer.nvim',
     'lewis6991/impatient.nvim',
-    config = function()
-      require('impatient')
-    end,
+    'nathom/filetype.nvim',
+    'nvim-lua/plenary.nvim',
   })
-
-  use('nathom/filetype.nvim')
-
-  use({ 'nvim-lua/plenary.nvim' })
 
   use({ -- color scheme
     'folke/tokyonight.nvim',
@@ -49,11 +38,6 @@ return packer.startup(function()
       vim.cmd('color tokyonight')
     end,
     disable = vim.tbl_contains(user_plugins.disable, 'theme'),
-  })
-
-  use({ -- icons
-    'kyazdani42/nvim-web-devicons',
-    after = 'tokyonight.nvim',
   })
 
   use({
@@ -73,7 +57,6 @@ return packer.startup(function()
     end,
     after = 'tokyonight.nvim',
     disable = vim.tbl_contains(user_plugins.disable, 'notify'),
-    event = 'BufEnter',
   })
 
   -- theme stuff
@@ -84,8 +67,8 @@ return packer.startup(function()
     config = function()
       require('cosmic.core.statusline')
     end,
-    after = 'nvim-web-devicons',
-    disable = vim.tbl_contains(user_plugins.disable, 'statusline') or vim.tbl_contains(user_plugins.disable, 'theme'),
+    after = 'tokyonight.nvim',
+    disable = vim.tbl_contains(user_plugins.disable, 'statusline'),
   })
 
   -- file explorer
@@ -106,18 +89,43 @@ return packer.startup(function()
     disable = vim.tbl_contains(user_plugins.disable, 'nvim-tree'),
   })
 
-  use({ -- lsp
-    'williamboman/nvim-lsp-installer',
+  use({
+    'neovim/nvim-lspconfig',
     requires = {
-      'neovim/nvim-lspconfig',
-      'ray-x/lsp_signature.nvim',
-      'jose-elias-alvarez/nvim-lsp-ts-utils',
+      {
+        'hrsh7th/cmp-nvim-lsp',
+        after = 'nvim-lspconfig',
+      },
+      {
+        'jose-elias-alvarez/nvim-lsp-ts-utils',
+        after = 'cmp-nvim-lsp',
+      },
+      {
+        'ray-x/lsp_signature.nvim',
+        after = 'nvim-lsp-ts-utils',
+      },
+      { 'onsails/lspkind-nvim', after = 'lsp_signature.nvim' },
+      {
+        'williamboman/nvim-lsp-installer',
+        after = 'lspkind-nvim',
+        config = function()
+          require('cosmic.lsp')
+        end,
+      },
     },
+  })
+
+  use({
+    'L3MON4D3/LuaSnip',
     config = function()
-      require('cosmic.lsp')
+      require('cosmic.core.snippets')
     end,
-    after = 'nvim-cmp',
-    event = 'BufEnter',
+    requires = {
+      {
+        'rafamadriz/friendly-snippets',
+      },
+    },
+    disable = vim.tbl_contains(user_plugins.disable, 'autocomplete'),
   })
 
   -- autocompletion
@@ -127,17 +135,12 @@ return packer.startup(function()
       require('cosmic.lsp.autocomplete').init()
     end,
     requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/nvim-cmp',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-      'onsails/lspkind-nvim',
+      { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-buffer', after = 'cmp_luasnip' },
+      { 'hrsh7th/cmp-nvim-lua', after = 'cmp-buffer' },
+      { 'hrsh7th/cmp-path', after = 'cmp-nvim-lua' },
     },
-    event = 'BufEnter',
-    disable = vim.tbl_contains(user_plugins.disable, 'autocomplete'),
+    event = 'InsertEnter',
   })
 
   use({
@@ -146,7 +149,6 @@ return packer.startup(function()
       require('cosmic.lsp.autocomplete').autopairs()
     end,
     after = 'nvim-cmp',
-    disable = vim.tbl_contains(user_plugins.disable, 'autocomplete'),
   })
 
   -- git commands
@@ -161,6 +163,7 @@ return packer.startup(function()
   use({
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
+    opt = true,
     event = 'BufRead',
     config = function()
       require('gitsigns').setup()
@@ -193,18 +196,24 @@ return packer.startup(function()
     config = function()
       require('cosmic.core.navigation')
     end,
-    event = 'BufEnter',
+    event = 'BufWinEnter',
     disable = vim.tbl_contains(user_plugins.disable, 'telescope'),
   })
 
-  -- session management
+  -- session/project management
+  use({
+    'glepnir/dashboard-nvim',
+    config = function()
+      require('cosmic.core.dashboard')
+    end,
+    disable = vim.tbl_contains(user_plugins.disable, 'dashboard'),
+  })
+
   use({
     'rmagatti/auto-session',
     event = 'VimEnter',
     config = function()
-      require('auto-session').setup({
-        pre_save_cmds = { 'NvimTreeClose', 'cclose', 'lua vim.notify.dismiss()' },
-      })
+      require('cosmic.core.session')
     end,
     disable = vim.tbl_contains(user_plugins.disable, 'auto-session'),
   })
@@ -228,7 +237,7 @@ return packer.startup(function()
   -- comments and stuff
   use({
     'b3nj5m1n/kommentary',
-    event = 'BufRead',
+    event = 'BufWinEnter',
     disable = vim.tbl_contains(user_plugins.disable, 'kommentary'),
   })
 
@@ -261,7 +270,7 @@ return packer.startup(function()
         },
       })
     end,
-    event = 'BufRead',
+    event = 'BufWinEnter',
     disable = vim.tbl_contains(user_plugins.disable, 'todo-comments'),
   })
   -- colorized hex codes
