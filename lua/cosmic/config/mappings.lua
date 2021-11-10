@@ -32,6 +32,7 @@ wk.register({
     l = {
         name = "LSP",
         a = {"Code Action"},
+        D = {"Telescope Document Diagnostics"},
         d = {"Document Diagnostics"},
         f = {"Format File"},
         r = {"Rename Mark"},
@@ -56,32 +57,15 @@ wk.register({
 local opts = { noremap = true, silent = true}
 local map = require('cosmic.utils').map
 
-vim.api.nvim_del_keymap('n', '<leader>f')
-vim.api.nvim_del_keymap('n', '<leader>k')
-vim.api.nvim_del_keymap('n', '<leader>p')
-vim.api.nvim_del_keymap('n', '<leader>r')
-vim.api.nvim_del_keymap('n', '<leader>s')
-vim.api.nvim_del_keymap('n', '<leader>ga')
-vim.api.nvim_del_keymap('n', '<leader>gc')
-vim.api.nvim_del_keymap('n', '<leader>ge')
-vim.api.nvim_del_keymap('n', '<leader>gf')
-vim.api.nvim_del_keymap('n', '<leader>gi')
-vim.api.nvim_del_keymap('n', '<leader>go')
-vim.api.nvim_del_keymap('n', '<leader>gr')
-vim.api.nvim_del_keymap('n', '<leader>gs')
-vim.api.nvim_del_keymap('n', '<leader>cf')
-vim.api.nvim_del_keymap('n', '<leader>ck')
-vim.api.nvim_del_keymap('n', '<leader>co')
-vim.api.nvim_del_keymap('n', '<leader>cc')
-
 -- setup lsp mappings
 map('n', '<leader>la', '<cmd>lua require("telescope.builtin").lsp_code_actions()<cr>', opts)
-map('n', '<leader>ld', '<cmd>lua require("telescope.builtin").lsp_document_diagnostics()<cr>', opts)
+map('n', '<leader>lD', '<cmd>lua require("telescope.builtin").lsp_document_diagnostics()<cr>', opts)
 map('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
 map('n', '<leader>lr', '<cmd>lua require("cosmic.core.theme.ui").rename()<cr>', opts)
 map('n', '<leader>lti', ':TSLspImportAll<CR>', opts)
 map('n', '<leader>lto', ':TSLspOrganize<CR>', opts)
 map('n', '<leader>ltr', ':TSLspRenameFile<CR>', opts)
+map('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float(0, { scope = "buffer", })<cr>')
 
 map('i', '<C-a>', ':copilot#Accept()<cr>', opts)
 
