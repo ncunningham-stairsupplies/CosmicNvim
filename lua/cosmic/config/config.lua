@@ -37,6 +37,9 @@ config.lsp = {
     -- enable non-default servers, use default lsp config
     -- check here for configs that will be used by default: https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers
     -- rust_analyzer = true,
+    eslint = {
+        format = false
+    },
 
     tsserver = {
       -- disable formatting (defaults to true)
@@ -49,11 +52,17 @@ config.lsp = {
         },
       },
     },
+    efm = {
+        format = false
+    },
 
     -- See Cosmic defaults lsp/providers/null_ls.lua
     null_ls = {
         sources = {
-            null_ls.builtins.formatting.autopep8
+            null_ls.builtins.formatting.autopep8,
+            null_ls.builtins.formatting.prettier.with({
+                filetypes ={ "css", "html", "graphql", "markdown"}
+            })
         }
     },
   },

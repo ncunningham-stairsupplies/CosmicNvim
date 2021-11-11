@@ -65,7 +65,7 @@ map('n', '<leader>lr', '<cmd>lua require("cosmic.core.theme.ui").rename()<cr>', 
 map('n', '<leader>lti', ':TSLspImportAll<CR>', opts)
 map('n', '<leader>lto', ':TSLspOrganize<CR>', opts)
 map('n', '<leader>ltr', ':TSLspRenameFile<CR>', opts)
-map('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float(0, { scope = "buffer", })<cr>')
+map('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float(0, { scope = "line", })<cr>')
 
 map('i', '<C-a>', ':copilot#Accept()<cr>', opts)
 
