@@ -11,6 +11,8 @@
 
 CosmicNvim is a lightweight and opinionated Neovim config for web development, specifically designed to provide a 💫 COSMIC programming experience!
 
+<img width="1792" alt="dashboard" src="https://user-images.githubusercontent.com/3721204/140592730-fc512005-6060-4dd2-8b90-0afa865d61d3.png">
+
 ## 🚀 Stellar Features
 
 #### Native LSP
@@ -21,8 +23,7 @@ Full featured native LSP functionality!
 - 🔍 Find references/type def/declaration
 - 💡 Code actions
 - 🚨 Statusline diagnostics
-- ⚠️ Linting thanks to [eslint](https://github.com/williamboman/nvim-lsp-installer/blob/main/lua/nvim-lsp-installer/servers/eslint/README.md)
-- 🔧 Formatting thanks to [efm](https://github.com/mattn/efm-langserver)
+- 🔧 Formatting/linting thanks to [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim)
 
 ##### Additional features
 
@@ -52,8 +53,8 @@ _While CosmicNvim is geared specifically toward TypeScript/JavaScript developmen
 
 - Neovim (+0.6.0)
 - [Node.js](https://nodejs.org/en/)
-- [prettierd](https://github.com/fsouza/prettierd) (for prettier formatting w/efm, optional)
-- [eslint_d](https://www.npmjs.com/package/eslint_d) (for eslint w/efm, optional)
+- [prettierd](https://github.com/fsouza/prettierd) (for prettier formatting w/null-ls, optional)
+- [eslint_d](https://www.npmjs.com/package/eslint_d) (for eslint w/null-ls, optional)
 
 #### Install
 
@@ -63,9 +64,11 @@ _While CosmicNvim is geared specifically toward TypeScript/JavaScript developmen
   $ nvim .
 ```
 
-Additional Cosmic installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installation).
+Additional CosmicNvim installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installation).
 
 Additional LSP server installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installing-LSP-servers).
+
+CosmicNvim uninstallation [details](https://github.com/mattleong/CosmicNvim/wiki/Uninstalling-CosmicNvim).
 
 ## Cosmic Commands
 
@@ -120,15 +123,11 @@ Enter `:TSInstall` followed by <TAB> to see your options for additional language
 ## 📷 Screenshots
 
 ### Statusline
-  
+
 <img width="1762" alt="normal" src="https://user-images.githubusercontent.com/3721204/140678741-266dc883-e1bb-4729-827e-1195acd62762.png">
 <img width="1762" alt="insert" src="https://user-images.githubusercontent.com/3721204/140678744-a89b7413-383d-4d81-affd-03c3815644bc.png">
 <img width="1762" alt="visual" src="https://user-images.githubusercontent.com/3721204/140678746-3ac4396d-32f9-4988-a296-76857291baca.png">
 <img width="1774" alt="replace" src="https://user-images.githubusercontent.com/3721204/140678745-a1cb5200-f945-4cff-ae0c-2285b25f333f.png">
-
-### Dashboard
-
-<img width="1792" alt="dashboard" src="https://user-images.githubusercontent.com/3721204/140592730-fc512005-6060-4dd2-8b90-0afa865d61d3.png">
 
 ### Autocomplete
 

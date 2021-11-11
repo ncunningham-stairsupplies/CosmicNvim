@@ -1,7 +1,5 @@
 -- Add additional plugins as well as disable some core plugins
 
---[[
-
 local plugins = {
   add = {
     'ggandor/lightspeed.nvim',
@@ -11,6 +9,7 @@ local plugins = {
     },
   },
   disable = { -- disabling some core plugins may mean you'll have to remap some keybindings
+    --[[
     'auto-session',
     'autocomplete',
     'colorizer',
@@ -25,19 +24,8 @@ local plugins = {
     'theme',
     'todo-comments',
     'treesitter',
+    ]]
   },
 }
 
-return plugins
-
-]]
-local plugins = {
-  add = {
-    "folke/which-key.nvim",
-    "github/copilot.vim"
-  },
-  disable = {
-    'auto-session'
-  }
-}
 return plugins
