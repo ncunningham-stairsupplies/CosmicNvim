@@ -39,11 +39,17 @@ end
 function M.get_active_lsp_client_names()
   local active_clients = vim.lsp.get_active_clients()
   local client_names = {}
-  for i, client in pairs(active_clients) do
-    table.insert(client_names, i, client.name)
+  for i, client in pairs(active_clients or {}) do
+    local buf = vim.api.nvim_get_current_buf()
+    -- only return attached buffers
+    if vim.lsp.buf_is_attached(buf, client.id) then
+      table.insert(client_names, client.name)
+    end
   end
 
-  table.sort(client_names)
+  if not vim.tbl_isempty(client_names) then
+    table.sort(client_names)
+  end
   return client_names
 end
 
@@ -59,13 +65,24 @@ local function unload(module_pattern, reload)
   end
 end
 
-function M.reload_user_config()
-  unload('cosmic.config', true)
-end
-
-function M.reload_cosmic()
+function M.post_reload()
   unload('cosmic')
   require('cosmic')
+  vim.cmd(':silent e')
+  vim.notify('CosmicNvim reloaded!', vim.log.levels.INFO, {
+    title = 'CosmicNvim',
+  })
+end
+
+function M.reload_cosmic(sync)
+  unload('cosmic.config')
+  require('cosmic.config')
+  vim.cmd([[autocmd User PackerCompileDone ++once lua require('cosmic.utils').post_reload()]])
+  if sync then
+    require('cosmic.packer').packer.sync()
+  else
+    require('cosmic.packer').packer.compile()
+  end
 end
 
 function M.get_install_dir()
