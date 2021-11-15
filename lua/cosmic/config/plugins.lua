@@ -34,7 +34,8 @@ return plugins
 local plugins = {
   add = {
     "folke/which-key.nvim",
-    "github/copilot.vim"
+    "github/copilot.vim",
+    "triglav/vim-visual-increment"
   },
   disable = {
     'auto-session'
