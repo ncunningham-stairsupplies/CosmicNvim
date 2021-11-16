@@ -32,55 +32,7 @@ return packer.startup(function()
     'nvim-lua/plenary.nvim',
   })
 
-  use({ -- color scheme
-    'folke/tokyonight.nvim',
-    config = function()
-      vim.g.tokyonight_style = 'night'
-      vim.g.tokyonight_sidebars = { 'qf' }
-      vim.cmd('color tokyonight')
-    end,
-    disable = config.theme ~= 'tokyonight.nvim',
-  })
-
-  use({
-    'Pocco81/Catppuccino.nvim',
-    config = function()
-      vim.cmd('color catppuccin')
-    end,
-    branch = 'dev-remaster',
-    disable = config.theme ~= 'Catppuccino.nvim',
-  })
-
-  use({
-    'shaunsingh/nord.nvim',
-    config = function()
-      vim.g.nord_contrast = true
-      vim.g.nord_borders = true
-      require('nord').set()
-    end,
-    disable = config.theme ~= 'nord.nvim',
-  })
-
-  use({
-    'ellisonleao/gruvbox.nvim',
-    requires = { 'rktjmp/lush.nvim' },
-    config = function()
-      -- todo: does nothing
-      vim.o.background = 'dark'
-      vim.cmd('colorscheme gruvbox')
-    end,
-    disable = config.theme ~= 'gruvbox.nvim',
-  })
-
-  use({
-    'rose-pine/neovim',
-    as = 'rose-pine',
-    config = function()
-      vim.g.rose_pine_variant = 'moon'
-      vim.cmd('colorscheme rose-pine')
-    end,
-    disable = config.theme ~= 'rose-pine',
-  })
+  require('cosmic.core.theme.plugins').init(use, config)
 
   use({
     'rcarriga/nvim-notify',
