@@ -38,7 +38,8 @@ local plugins = {
     "triglav/vim-visual-increment"
   },
   disable = {
-    'auto-session'
+    'auto-session',
+    'dashboard'
   }
 }
 return plugins
