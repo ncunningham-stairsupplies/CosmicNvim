@@ -17,6 +17,7 @@ config.statusline = {
 -- see Cosmic defaults: core/treesitter/init.lua
 config.treesitter = {}
 
+config.theme = 'tokyonight' -- don't define or set to nil, if you want to enable your own theme in cosmic/config/plugins.lua
 -- lsp Settings
 config.lsp = {
 
