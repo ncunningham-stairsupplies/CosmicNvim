@@ -79,6 +79,9 @@ CosmicNvim comes with first-class support for the following themes:
 - [Rose-pine](https://github.com/rose-pine/neovim)
 - [Nord](https://github.com/shaunsingh/nord.nvim)
 - [Tokyonight](https://github.com/folke/tokyonight.nvim)
+- [Nightfox](https://github.com/EdenEast/nightfox.nvim)
+
+[Additional Screenshots](https://github.com/mattleong/CosmicNvim/wiki/Theme-Screenshots)
 
 ## Configuration
 
@@ -102,11 +105,21 @@ CosmicNvim comes with first-class support for the following themes:
 
 By default, this will assume the Cosmic git directory is placed at `vim.fn.stdpath('config')`, i.e. `~/.config/nvim`. Otherwise, you may define the shell environment variable `COSMICNVIM_INSTALL_DIR`.
 
+#### Clear cache and sync plugins
+
+```
+:CosmicReloadSync
+```
+
+Useful for changing themes or updating plugins on the fly!
+
 #### Reload user config
 
 ```
 :CosmicReload
 ```
+
+Useful for non-plugin related changes such as editor settings or mappings.
 
 ## Treesitter Support
 
