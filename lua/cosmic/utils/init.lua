@@ -1,3 +1,4 @@
+local Logger = require('cosmic.utils.logger')
 local M = {}
 
 function M.map(mode, lhs, rhs, opts)
@@ -68,9 +69,6 @@ end
 local function clear_cache()
   if 0 == vim.fn.delete(vim.fn.stdpath('config') .. '/lua/cosmic/compiled.lua') then
     vim.cmd(':LuaCacheClear')
-    vim.notify('Cache cleared!', vim.log.levels.INFO, {
-      title = 'CosmicNvim',
-    })
   end
 end
 
@@ -80,9 +78,7 @@ function M.post_reload(msg)
   unload('cosmic.core.theme.highlights', true)
   unload('cosmic.core.statusline', true)
   msg = msg or 'User config reloaded!'
-  vim.notify(msg, vim.log.levels.INFO, {
-    title = 'CosmicNvim',
-  })
+  Logger:log(msg)
 end
 
 function M.reload_user_config_sync()
@@ -94,11 +90,12 @@ function M.reload_user_config_sync()
   vim.cmd(':PackerSync')
 end
 
-function M.reload_user_config(notify)
-  notify = notify or false
+function M.reload_user_config(compile)
+  compile = compile or false
   unload('cosmic.config', true)
-  if notify then
-    M.post_reload()
+  if compile then
+    vim.cmd([[autocmd User PackerCompileDone ++once lua require('cosmic.utils').post_reload()]])
+    vim.cmd(':PackerCompile')
   end
 end
 
@@ -122,24 +119,16 @@ function M.update()
       args = { 'pull', '--ff-only' },
       cwd = path,
       on_start = function()
-        vim.notify('Updating...', vim.log.levels.INFO, {
-          title = 'CosmicNvim',
-        })
+        Logger:log('Updating...')
       end,
       on_exit = function()
         if vim.tbl_isempty(errors) then
-          vim.notify(
-            'Please restart CosmicNvim and run `:PackerSync`',
-            vim.log.levels.INFO,
-            { title = 'CosmicNvim Updated!', timeout = 30000 }
-          )
+          Logger:log('Updated! Running CosmicReloadSync...', { timeout = 30000 })
+          M.reload_user_config_sync()
         else
           table.insert(errors, 1, 'Something went wrong! Please pull changes manually.')
           table.insert(errors, 2, '')
-          vim.notify(errors, vim.log.levels.ERROR, {
-            title = 'CosmicNvim Update Failed!',
-            timeout = 30000,
-          })
+          Logger:error('Update failed!', { timeout = 30000 })
         end
       end,
       on_stderr = function(_, err)

@@ -1,12 +1,15 @@
 local M = {}
 
 M.supported_themes = {
-  'tokyonight',
   'catppuccin',
+  'dracula',
+  'enfocado',
   'gruvbox',
-  'rose-pine',
   'nightfox',
   'nord',
+  'onedark',
+  'rose-pine',
+  'tokyonight',
 }
 
 function M.init(use, config)
@@ -70,9 +73,35 @@ function M.init(use, config)
     config = function()
       vim.cmd('color nightfox')
     end,
-    disable = config.theme ~= 'nightfox'
+    disable = config.theme ~= 'nightfox',
   })
 
+  use({
+    'navarasu/onedark.nvim',
+    as = 'onedark',
+    config = function()
+      vim.cmd('color onedark')
+    end,
+    disable = config.theme ~= 'onedark',
+  })
+
+  use({
+    'Mofiqul/dracula.nvim',
+    as = 'dracula',
+    config = function()
+      vim.cmd('color dracula')
+    end,
+    disable = config.theme ~= 'dracula',
+  })
+
+  use({
+    'wuelnerdotexe/vim-enfocado',
+    as = 'enfocado',
+    config = function()
+      vim.cmd('color enfocado')
+    end,
+    disable = config.theme ~= 'enfocado',
+  })
 end
 
 return M

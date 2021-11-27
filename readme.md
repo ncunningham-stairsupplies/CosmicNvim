@@ -2,11 +2,13 @@
 
 <p align="center">
   <img alt="Neovim Minimum Version" src="https://img.shields.io/badge/Neovim-0.6.0+-blueviolet.svg?style=flat-square&logo=Neovim&logoColor=white)](https://github.com/neovim/neovim">
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mattleong/CosmicNvim?style=flat-square&logo=Github">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/CosmicNvim/CosmicNvim?style=flat-square&logo=Github">
   <a href="https://discord.gg/EwdrKzVbvJ">
     <img alt="Discord" src="https://img.shields.io/discord/901609359291854899?style=flat-square&logo=Discord">
   </a>
-  <img alt="Website" src="https://img.shields.io/website?style=flat-square&up_message=live&label=website&url=https%3A%2F%2Fcosmicnvim.vercel.app%2F">
+  <a href="https://cosmicnvim.vercel.app/">
+    <img alt="Website" src="https://img.shields.io/website?style=flat-square&up_message=live&label=website&url=https%3A%2F%2Fcosmicnvim.vercel.app%2F">
+  </a>
 </p>
 
 CosmicNvim is a lightweight and opinionated Neovim config for web development, specifically designed to provide a 💫 COSMIC programming experience!
@@ -60,28 +62,31 @@ _While CosmicNvim is geared specifically toward TypeScript/JavaScript developmen
 
 ```
   $ cd ~/.config
-  $ git clone git@github.com:mattleong/CosmicNvim.git nvim
+  $ git clone git@github.com:CosmicNvim/CosmicNvim.git nvim
   $ nvim .
 ```
 
-Additional CosmicNvim installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installation).
+Additional CosmicNvim installation [details](https://github.com/CosmicNvim/CosmicNvim/wiki/Installation).
 
-Additional LSP server installation [details](https://github.com/mattleong/CosmicNvim/wiki/Installing-LSP-servers).
+Additional LSP server installation [details](https://github.com/CosmicNvim/CosmicNvim/wiki/Installing-LSP-servers).
 
-CosmicNvim uninstallation [details](https://github.com/mattleong/CosmicNvim/wiki/Uninstalling-CosmicNvim).
+CosmicNvim uninstallation [details](https://github.com/CosmicNvim/CosmicNvim/wiki/Uninstalling-CosmicNvim).
 
 ## Theming
 
 CosmicNvim comes with first-class support for the following themes:
 
 - [Catppuccino](https://github.com/Pocco81/Catppuccino.nvim)
+- [Dracula](https://github.com/Mofiqul/dracula.nvim)
+- [Enfocado](https://github.com/wuelnerdotexe/vim-enfocado)
 - [Gruvbox](https://github.com/ellisonleao/gruvbox.nvim)
-- [Rose-pine](https://github.com/rose-pine/neovim)
-- [Nord](https://github.com/shaunsingh/nord.nvim)
-- [Tokyonight](https://github.com/folke/tokyonight.nvim)
 - [Nightfox](https://github.com/EdenEast/nightfox.nvim)
+- [Nord](https://github.com/shaunsingh/nord.nvim)
+- [Onedark](https://github.com/navarasu/onedark.nvim)
+- [Rose-pine](https://github.com/rose-pine/neovim)
+- [Tokyonight](https://github.com/folke/tokyonight.nvim)
 
-[Additional Screenshots](https://github.com/mattleong/CosmicNvim/wiki/Theme-Screenshots)
+[Additional Screenshots](https://github.com/CosmicNvim/CosmicNvim/wiki/Theme-Screenshots)
 
 ## Configuration
 
@@ -162,4 +167,4 @@ Enter `:TSInstall` followed by <TAB> to see your options for additional language
 
 <img width="1792" alt="hover" src="https://user-images.githubusercontent.com/3721204/140592798-b9dbbdee-8496-4998-a874-110a051a7672.png">
 
-[See more screenshots](https://github.com/mattleong/CosmicNvim/wiki/Screenshots)
+[See more screenshots](https://github.com/CosmicNvim/CosmicNvim/wiki/Screenshots)
